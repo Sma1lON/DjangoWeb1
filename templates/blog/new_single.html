@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% block desc %}{{ new.description }}{% endblock desc %}
+{% block keywords %}{{ new.keywords }}{% endblock keywords %}
+{% block title %}{{ new.title }}{% endblock title %}
+
+{% block content %}
+    <h1>{{ new.title }}</h1>
+    <p>{{ new.text }}</p>
+
+    Категорія - {{ new.category}}<br>
+    Теги - {% for tag in new.tags.all%}
+            {{tag.title}}
+        {% endfor %}
+    <br>
+    Автор:{{ new.user}} - {{ new.created}}
+ <h4>Коментар</h4>
+    {% for comment in comments %}
+        Користувач - {{comment.user}}<br>
+        {{comment.text}}<br>
+        {{comment.created}}
+    {% endfor %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Відправити</button>
+    </form>
+{% endblock content %}
