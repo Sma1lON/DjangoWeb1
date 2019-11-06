@@ -1,11 +1,13 @@
-from django.shortcuts import render
-from blog.models import Blog, Comments
-from django.shortcuts import render,get_object_or_404,redirect
 from blog.forms import CommentForms
+from blog.models import Blog, Comments
+from django.shortcuts import render, get_object_or_404, redirect
+
+
 def blog_list(request):
     """Вивод новин"""
-    blog=Blog.objects.all()
-    return render(request,"blog/blog_list.html",{"blog":blog})
+    blog = Blog.objects.all()
+    return render(request, "blog/blog_list.html", {"blog": blog})
+
 
 def new_single(request, pk):
     """Повна стаття """
@@ -23,5 +25,5 @@ def new_single(request, pk):
         form = CommentForms()
     return render(request, "blog/new_single.html",
                   {"new": new,
-                   "comments":comment,
-                   "form":form})
+                   "comments": comment,
+                   "form": form})

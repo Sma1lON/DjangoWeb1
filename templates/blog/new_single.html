@@ -3,22 +3,25 @@
 {% block keywords %}{{ new.keywords }}{% endblock keywords %}
 {% block title %}{{ new.title }}{% endblock title %}
 
+  {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/web.css' %}" type="text/css">
+
 {% block content %}
     <h1>{{ new.title }}</h1>
-    <p>{{ new.text }}</p><hr>
+    <p class="goo">{{ new.text }}</p><hr>
 
     Категорія - {{ new.category}}<br>
     Теги - {% for tag in new.tags.all %}
                  {{tag.title}}
             {% endfor %} <br>
-    Автор:{{ new.user}} - {{ new.created}}
-    <h4>Коментар</h4>
+    Автор:{{ new.user}} - {{ new.created}}<hr>
+    <h4 class="goo">Коментар</h4>
     {% for comment in comments %}
         Користувач - {{comment.user}}<br>
         {{comment.text}}<br>
         {{comment.created}}<br>
     {% endfor %}
-    <form action="" method="post">
+    <form action="" method="post" >
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Отправить</button>

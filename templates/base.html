@@ -1,14 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/web.css' %}" type="text/css">
+
     <meta charset="UTF-8">
     <meta name="discription" content="{% block desc %}{% endblock desc %}">
     <meta name="keywords" content="{% block keywords %}{% endblock keywords %}">
     <title>{% block title %}{% endblock title %}</title>
-</head>
-<body>
-    {% block content %}
 
+
+</head>
+
+<body leftmargin="100px" background="{% static "img/bg1.jpg" %}">
+
+    <p>
+    <a href="/" class="knopka">Головна сторінка</a>
+    <a href="/admin" class="knopka">Admin</a>
+    </p>
+<a class="goo">
+    {% block content %}
     {% endblock content %}
+</a>
+
+<svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <defs>
+        <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+            <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+        </filter>
+    </defs>
+</svg>
+
 </body>
 </html>

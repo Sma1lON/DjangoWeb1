@@ -1,5 +1,14 @@
+
+ {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/web.css' %}" type="text/css">
+ <body leftmargin="100px" background="{% static "img/bg1.jpg" %}">
+  <p>
+    <a href="/admin" class="knopka">Admin</a>
+    </p>
+
 {% for new in blog %}
 <h2><a href="{% url 'new_single' pk=new.id %}">{{ new.title }}</a></h2>
     <p>{{ new.text_min|safe }}</p>
     <p>{{ new.created }}</p>
 {% endfor %}
+ </body>
