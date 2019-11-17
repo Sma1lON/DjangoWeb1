@@ -129,7 +129,7 @@ SITE_ID = 1
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join("static"),]
-
+#STATIC_ROOT = os.path.join("static")
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

@@ -13,23 +13,7 @@ a.knopka:active {
   background: rgb(152, 15, 0);
 } /* при нажатии */
 
-:root {
-  
-    --color-highlight: #fff;
-    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-}
-
-.goo {
-    font-size: 1rem;
-    line-height: 1.75;
-    display: inline;
-    box-decoration-break: clone;
-    background: var(--color-highlight);
-    padding: 0.5rem 1rem;
-    filter: url('#goo');
-}
-
 body {
-    padding: 7.5vh 100px 0 100px;
-    font-family: var(--font);
+  padding: 7.5vh 100px 0 100px;
+  font-family: var(--font);
 }

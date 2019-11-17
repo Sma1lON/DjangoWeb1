@@ -19,11 +19,16 @@
     {% for comment in comments %}
         Користувач - {{comment.user}}<br>
         {{comment.text}}<br>
-        {{comment.created}}<br>
+        {{comment.created}}
+        <form action="{% url 'edit_com' pk=comment.id %}">
+        <button type="submit">Редагувати</button></form><br>
     {% endfor %}
     <form action="" method="post" >
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Отправить</button>
+    </form>
+    <form action="{% url 'edit_post' id=new.id %}">
+        <button type="submit">Редагувати</button>
     </form>
 {% endblock content %}

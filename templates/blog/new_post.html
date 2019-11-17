@@ -1,0 +1,13 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}
+  Новий пост
+{% endblock %}
+{% block content %}
+<h1>Добавлення поста</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="knopka" value="Редагувати">
+    </form>
+{% endblock %}
