@@ -76,5 +76,5 @@ def edit_comments(request,pk, template_name='blog/edit_com.html'):
             form.save()
             redirect_url = reverse(new_single)
             return redirect(redirect_url, {})
-        return render(request, template_name, {'form': form, "article":article})
+        return render(request, template_name, {'form': form,'article':article})
 

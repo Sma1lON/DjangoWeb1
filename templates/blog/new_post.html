@@ -4,10 +4,16 @@
   Новий пост
 {% endblock %}
 {% block content %}
+{% if user.is_authenticated %}
 <h1>Добавлення поста</h1>
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
         <input type="submit" class="knopka" value="Редагувати">
     </form>
+{% endif %}
+{% if not user.is_authenticated %}
+<h1>Щоб додати пост авторезуйтесь</h1>
+<a href="/accounts/login" class="knopka">Login</a>
+{% endif %}
 {% endblock %}

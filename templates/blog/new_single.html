@@ -20,9 +20,12 @@
         Користувач - {{comment.user}}<br>
         {{comment.text}}<br>
         {{comment.created}}
+        {% if user.is_authenticated %}
         <form action="{% url 'edit_com' pk=comment.id %}">
-        <button type="submit">Редагувати</button></form><br>
+        <button type="submit">Редагувати</button></form>
+        {% endif %}<br>
     {% endfor %}
+    {% if user.is_authenticated %}
     <form action="" method="post" >
             {% csrf_token %}
             {{ form.as_p }}
@@ -31,4 +34,5 @@
     <form action="{% url 'edit_post' id=new.id %}">
         <button type="submit">Редагувати</button>
     </form>
+    {% endif %}
 {% endblock content %}
