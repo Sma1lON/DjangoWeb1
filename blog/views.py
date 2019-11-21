@@ -1,3 +1,5 @@
+from django.http import HttpResponseRedirect, HttpResponseNotFound
+
 from .forms import CommentForms, NewPost
 from .forms import ArticleForm
 from blog.models import Blog, Comments
@@ -51,7 +53,7 @@ def edit(request, id, template_name='blog/edit_post.html'):
         article = get_object_or_404(Blog, id=id)
         if article.user != request.user and article.user.is_superuser:
             redirect_url = reverse(blog_list)
-            return redirect(redirect_url,{})
+            return redirect(redirect_url, {})
     else:
         article = Blog(user=request.user)
 
@@ -59,22 +61,33 @@ def edit(request, id, template_name='blog/edit_post.html'):
     if request.POST and form.is_valid():
         form.save()
         redirect_url = reverse(blog_list)
-        return redirect(redirect_url,{})
-    return render(request, template_name, {'form': form,})
+        return redirect(redirect_url, {})
+    return render(request, template_name, {'form': form, })
 
-def edit_comments(request,pk, template_name='blog/edit_com.html'):
-    if id:
-        article = get_object_or_404(Comments,id=pk)
-        if article.user != request.user and article.user.is_superuser:
-            redirect_url = reverse(new_single)
-            return redirect(redirect_url, {})
+def editcom(request, id):
+    try:
+        com = Comments.objects.get(id=id)
+        if request.method == "POST":
+            com.text = request.POST.get("text")
+            com.save()
+            return HttpResponseRedirect("/")
         else:
-            article =Comments(user=request.user)
+            return render(request, "blog/edit_comment.html", {"com": com})
+    except Comments.DoesNotExist:
+        return HttpResponseNotFound("<h2>Коментар не знайдено</h2>")
 
-        form = CommentForms(request.POST or None,instance=article)
-        if request.POST and form.is_valid():
-            form.save()
-            redirect_url = reverse(new_single)
-            return redirect(redirect_url, {})
-        return render(request, template_name, {'form': form,'article':article})
+def delete(request, id):
+    try:
+        blog = Blog.objects.get(id=id)
+        blog.delete()
+        return HttpResponseRedirect("/")
+    except Blog.DoesNotExist:
+        return HttpResponseNotFound("<h2>Пост не знайдено</h2>")
 
+def deletecom(request, id):
+    try:
+        comment = Comments.objects.get(id=id)
+        comment.delete()
+        return HttpResponseRedirect("/")
+    except Blog.DoesNotExist:
+        return HttpResponseNotFound("<h2>Коментар не знайдено</h2>")

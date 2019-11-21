@@ -19,10 +19,15 @@
     {% for comment in comments %}
         Користувач - {{comment.user}}<br>
         {{comment.text}}<br>
-        {{comment.created}}
-        {% if user.is_authenticated %}
-        <form action="{% url 'edit_com' pk=comment.id %}">
+        {{comment.created}}<br>
+        {% if user.is_authenticated and user == comment.user or user.is_superuser%}
+        <form action="{% url 'edit_com' id=comment.id %}">
         <button type="submit">Редагувати</button></form>
+
+        <form action="{% url 'del_com' id=new.id %}">
+         <button type="submit" class="knopka">Видалити</button>
+        </form>
+
         {% endif %}<br>
     {% endfor %}
     {% if user.is_authenticated %}
@@ -31,8 +36,13 @@
             {{ form.as_p }}
             <button type="submit">Отправить</button>
     </form>
+    {% if user == new.user or user.is_superuser%}
     <form action="{% url 'edit_post' id=new.id %}">
         <button type="submit">Редагувати</button>
     </form>
+    <form action="{% url 'del_post' id=new.id %}">
+         <button type="submit" class="knopka">Видалити</button>
+    </form>
+    {% endif %}
     {% endif %}
 {% endblock content %}
