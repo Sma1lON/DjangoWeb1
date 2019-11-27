@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
-    'web1',
     'blog',
 ]
 

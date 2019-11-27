@@ -13,7 +13,7 @@ def blog_list(request):
     return render(request, "blog/blog_list.html", {"blog": blog})
 
 
-def new_single(request, pk):
+def blog_detail(request, pk):
     """Повна стаття """
     new = get_object_or_404(Blog, id=pk)
     comment = Comments.objects.filter(new=pk)
@@ -24,10 +24,10 @@ def new_single(request, pk):
             form.user = request.user
             form.new = new
             form.save()
-            return redirect(new_single, pk)
+            return redirect(blog_detail, pk)
     else:
         form = CommentForms()
-    return render(request, "blog/new_single.html",
+    return render(request, "blog/blog_detail.html",
                   {"new": new,
                    "comments": comment,
                    "form": form})
@@ -64,30 +64,33 @@ def edit(request, id, template_name='blog/edit_post.html'):
         return redirect(redirect_url, {})
     return render(request, template_name, {'form': form, })
 
-def editcom(request, id):
-    try:
-        com = Comments.objects.get(id=id)
-        if request.method == "POST":
-            com.text = request.POST.get("text")
-            com.save()
-            return HttpResponseRedirect("/")
-        else:
-            return render(request, "blog/edit_comment.html", {"com": com})
-    except Comments.DoesNotExist:
-        return HttpResponseNotFound("<h2>Коментар не знайдено</h2>")
+
+def editcom(request, id, cid):
+    entity = get_object_or_404(Comments, id=cid)
+    if entity.user != request.user and entity.user.is_superuser:
+        redirect_url = reverse(blog_list)
+        return redirect(redirect_url, {})
+    form = CommentForms(request.POST or None, instance=entity)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect(reverse("blog_detail", kwargs={'pk': id}))
+
+    return render(request, "blog/edit_com.html", {"form": form})
+
 
 def delete(request, id):
-    try:
-        blog = Blog.objects.get(id=id)
-        blog.delete()
-        return HttpResponseRedirect("/")
-    except Blog.DoesNotExist:
-        return HttpResponseNotFound("<h2>Пост не знайдено</h2>")
+    blog = get_object_or_404(Blog, id=id)
+    if blog.user != request.user and blog.user.is_superuser:
+        redirect_url = reverse(blog_list)
+        return redirect(redirect_url, {})
+    blog.delete()
+    return redirect(reverse("list_blog"))
 
-def deletecom(request, id):
-    try:
-        comment = Comments.objects.get(id=id)
-        comment.delete()
-        return HttpResponseRedirect("/")
-    except Blog.DoesNotExist:
-        return HttpResponseNotFound("<h2>Коментар не знайдено</h2>")
+
+def deletecom(request, id, cid):
+    comment = get_object_or_404(Comments, id=cid)
+    if comment.user != request.user and comment.user.is_superuser:
+        redirect_url = reverse(blog_list)
+        return redirect(redirect_url, {})
+    comment.delete()
+    return redirect(reverse("blog_detail", kwargs={'pk': id}))
