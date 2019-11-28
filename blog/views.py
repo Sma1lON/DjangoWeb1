@@ -92,5 +92,8 @@ def deletecom(request, id, cid):
     if comment.user != request.user and comment.user.is_superuser:
         redirect_url = reverse(blog_list)
         return redirect(redirect_url, {})
-    comment.delete()
-    return redirect(reverse("blog_detail", kwargs={'pk': id}))
+    form = CommentForms(request.POST or None, instance=comment)
+    if request.method == "POST" and form.is_valid():
+        comment.delete()
+        return redirect(reverse("blog_detail", kwargs={'pk': id}))
+    return render(request, "blog/del_com.html", {"form": form})

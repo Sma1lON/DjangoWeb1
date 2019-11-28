@@ -4,13 +4,13 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Модели в Django</title>
+    <title>Редагування коментаря</title>
 </head>
 <body class="container">
     <form method="POST" >
         {% csrf_token %}
         <p>
-            <label>Введи текст комеентаря</label><br>
+            <label>Введи текст коментаря</label><br>
             <input type="text" name="text" value="{{com.text}}" />
         </p>
         <input type="submit" value="Зберигти" >
