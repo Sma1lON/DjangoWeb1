@@ -1,10 +1,10 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <h1>Редагування коментаря</h1>
+    <h1>Видалення поста</h1>
     <form method="POST" >
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="knopka">Зберегти</button>
+        <button type="submit" class="knopka">Видалити</button>
     </form>
 {% endblock %}

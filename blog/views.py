@@ -83,8 +83,11 @@ def delete(request, id):
     if blog.user != request.user and blog.user.is_superuser:
         redirect_url = reverse(blog_list)
         return redirect(redirect_url, {})
-    blog.delete()
-    return redirect(reverse("list_blog"))
+    form = ArticleForm(request.POST or None, instance=blog)
+    if request.method == "POST" and form.is_valid():
+        redirect_url = reverse(blog_list)
+        return redirect(redirect_url, {})
+    return render(request, "blog/del_post.html", {'form': form, })
 
 
 def deletecom(request, id, cid):
